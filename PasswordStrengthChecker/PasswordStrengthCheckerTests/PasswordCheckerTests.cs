@@ -20,5 +20,11 @@ namespace PasswordStrengthChecker.Tests
         {
             Assert.IsTrue(new PasswordChecker().IsAcceptablePassword("1234567A"));
         }
+
+        [TestMethod]
+        public void PasswordLongerThan7CharactersButNoAlphabetShouldBeNotAcceptable()
+        {
+            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("12345678"));
+        }
     }
 }
