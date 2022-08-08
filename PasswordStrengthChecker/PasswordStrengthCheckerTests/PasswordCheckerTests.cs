@@ -32,5 +32,11 @@ namespace PasswordStrengthChecker.Tests
         {
             Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("ABCDEFGH"));
         }
+
+        [TestMethod]
+        public void PasswordEqualsOrLessThan7ChractersShouldBeNotAcceptable()
+        {
+            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("ABCDEF1"));
+        }
     }
 }
