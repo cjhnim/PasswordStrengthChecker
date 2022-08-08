@@ -18,6 +18,18 @@ namespace PasswordStrengthChecker
             return false;
         }
 
+        private bool IsAcceptablePasswordForAdmin(string password)
+        {
+            if (password.Length >= 10 &&
+                IsContainLetter(password) &&
+                IsContainDigit(password))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         private bool IsContainDigit(string password)
         {
             foreach (var c in password)
@@ -42,7 +54,11 @@ namespace PasswordStrengthChecker
 
         public bool IsAcceptablePasswordEx(string password, bool isAdmin)
         {
-            return IsAcceptablePassword(password);
+            if (!isAdmin)
+                return IsAcceptablePassword(password);
+            else
+                return IsAcceptablePasswordForAdmin(password);
         }
+
     }
 }
