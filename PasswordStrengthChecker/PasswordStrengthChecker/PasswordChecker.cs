@@ -15,7 +15,10 @@ namespace PasswordStrengthChecker
 
         public bool IsAcceptablePassword(string password)
         {
-            if (CheckLength(password,8) && IsContainLetterAndDigit(password))
+            bool checkLength = CheckLength(password, 8);
+            bool checkChracters = IsContainLetterAndDigit(password);
+
+            if (checkLength && checkChracters)
             {
                 return true;
             }
@@ -26,7 +29,12 @@ namespace PasswordStrengthChecker
 
         private bool IsAcceptablePasswordForAdmin(string password)
         {
-            if (CheckLength(password,10) && IsContainLetterAndDigit(password) && IsContainSpecialChracters(password))
+
+            bool checkLength = CheckLength(password, 10);
+            bool checkChracters = IsContainLetterAndDigit(password);
+            bool checkSpecial = IsContainSpecialChracters(password);
+
+            if (checkLength && checkChracters && checkSpecial)
             {
                 return true;
             }
