@@ -6,6 +6,13 @@ namespace PasswordStrengthChecker
 {
     public class PasswordChecker
     {
+        private List<WeakReasons> reasons;
+
+        public PasswordChecker()
+        {
+            reasons = new List<WeakReasons>();
+        }
+
         public bool IsAcceptablePassword(string password)
         {
             if (password.Length > 7 && IsContainLetterAndDigit(password))
@@ -76,7 +83,7 @@ namespace PasswordStrengthChecker
 
         public List<WeakReasons> GetLastReasons()
         {
-            return new List<WeakReasons>();
+            return reasons;
         }
     }
 }
