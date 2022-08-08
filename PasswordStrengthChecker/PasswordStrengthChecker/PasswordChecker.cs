@@ -77,6 +77,8 @@ namespace PasswordStrengthChecker
                     return true;
             }
 
+            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_SPECIAL });
+
             return false;
         }
 

@@ -95,5 +95,14 @@ namespace PasswordStrengthChecker.Tests
             Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678", false));
             Assert.AreEqual(WeakReasons.TYPE_ALPHABET, checker.GetLastReasons()[0].Type);
         }
+
+        [TestMethod]
+        public void SpecialCharactersReasons()
+        {
+
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678AB", true));
+            Assert.AreEqual(WeakReasons.TYPE_SPECIAL, checker.GetLastReasons()[0].Type);
+        }
     }
 }
