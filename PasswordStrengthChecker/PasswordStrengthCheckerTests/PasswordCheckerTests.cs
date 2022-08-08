@@ -76,7 +76,7 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567", false));
-            Assert.AreEqual(WeakReasons.TYPE_LENGTH, checker.GetLastReasons()[0].Type);
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Length));
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("ABCDEFGH", false));
-            Assert.AreEqual(WeakReasons.TYPE_DIGITS, checker.GetLastReasons()[0].Type);
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Digits));
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678", false));
-            Assert.AreEqual(WeakReasons.TYPE_ALPHABET, checker.GetLastReasons()[0].Type);
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678AB", true));
-            Assert.AreEqual(WeakReasons.TYPE_SPECIAL, checker.GetLastReasons()[0].Type);
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Special));
         }
 
         [TestMethod]
@@ -112,8 +112,8 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567890", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_SPECIAL));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_ALPHABET));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Special));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
         }
 
         [TestMethod]
@@ -122,8 +122,8 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("12345", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_LENGTH));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_ALPHABET));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Length));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
         }
 
         [TestMethod]
@@ -132,9 +132,9 @@ namespace PasswordStrengthChecker.Tests
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("1234", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_LENGTH));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_SPECIAL));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_ALPHABET));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Length));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Special));
         }
     }
 }

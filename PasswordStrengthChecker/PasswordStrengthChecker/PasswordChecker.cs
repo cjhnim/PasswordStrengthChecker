@@ -54,7 +54,7 @@ namespace PasswordStrengthChecker
             if (password.Length >= strongLength)
                 return true;
 
-            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_LENGTH });
+            reasons.Add(new WeakReasons { Type = WeakReasonType.Length});
 
             return false;
         }
@@ -67,7 +67,7 @@ namespace PasswordStrengthChecker
                     return true;
             }
 
-            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_DIGITS });
+            reasons.Add(new WeakReasons { Type = WeakReasonType.Digits });
 
             return false;
         }
@@ -80,7 +80,7 @@ namespace PasswordStrengthChecker
                     return true;
             }
 
-            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_ALPHABET});
+            reasons.Add(new WeakReasons { Type = WeakReasonType.Alphabet});
             return false;
         }
 
@@ -92,7 +92,7 @@ namespace PasswordStrengthChecker
                     return true;
             }
 
-            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_SPECIAL });
+            reasons.Add(new WeakReasons { Type = WeakReasonType.Special });
 
             return false;
         }
