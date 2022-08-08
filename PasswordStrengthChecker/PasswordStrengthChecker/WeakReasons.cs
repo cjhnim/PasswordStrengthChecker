@@ -7,6 +7,6 @@
         public static readonly int TYPE_DIGITS = 3;
         public static readonly int TYPE_SPECIAL = 4;
 
-        public object Type { get; set; }
+        public int Type { get; set; }
     }
 }

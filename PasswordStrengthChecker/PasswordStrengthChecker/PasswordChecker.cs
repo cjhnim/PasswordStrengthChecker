@@ -34,9 +34,14 @@ namespace PasswordStrengthChecker
             return false;
         }
 
-        private static bool CheckLength(string password, int strongLength)
+        private bool CheckLength(string password, int strongLength)
         {
-            return password.Length >= strongLength;
+            if (password.Length >= strongLength)
+                return true;
+
+            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_LENGTH });
+
+            return false;
         }
 
         private bool IsContainDigit(string password)

@@ -69,13 +69,13 @@ namespace PasswordStrengthChecker.Tests
             Assert.AreEqual(0, checker.GetLastReasons().Count);
         }
 
-        //[TestMethod]
-        //public void IfPasswordIsWeak_LastReasonShouldBeNotEmpty()
-        //{
+        [TestMethod]
+        public void IfPasswordIsWeak_LastReasonShouldBeNotEmpty()
+        {
 
-        //    PasswordChecker checker = new PasswordChecker();
-        //    Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567", false));
-        //    Assert.AreEqual(WeakReasons.TYPE_LENGTH, checker.GetLastReasons()[0].Type);
-        //}
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567", false));
+            Assert.AreEqual(WeakReasons.TYPE_LENGTH, checker.GetLastReasons()[0].Type);
+        }
     }
 }
