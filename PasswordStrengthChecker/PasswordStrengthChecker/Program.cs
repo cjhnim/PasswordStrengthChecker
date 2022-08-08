@@ -6,7 +6,13 @@ namespace PasswordStrengthChecker
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            PasswordChecker checker = new PasswordChecker();
+            Console.WriteLine(checker.IsAcceptablePassword("ABCDEFGHKJ"));
+            Console.WriteLine(checker.IsAcceptablePassword("ABCDEFGHKJ1"));
+            Console.WriteLine(checker.IsAcceptablePassword("KJ1"));
+            Console.WriteLine(checker.IsAcceptablePassword("123"));
+            Console.WriteLine(checker.IsAcceptablePassword("1234567"));
+            Console.WriteLine(checker.IsAcceptablePassword("1234567A"));
         }
     }
 }
