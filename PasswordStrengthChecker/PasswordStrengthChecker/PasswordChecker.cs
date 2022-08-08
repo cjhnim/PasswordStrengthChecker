@@ -9,7 +9,18 @@ namespace PasswordStrengthChecker
         public bool IsAcceptablePassword(string password)
         {
             if (password.Length > 7)
-                return true;
+            {
+                bool isContainLetter = false;
+                foreach(var c in password)
+                {
+                    if (char.IsLetter(c))
+                        isContainLetter = true;
+
+                }
+
+                if(isContainLetter)
+                    return true;
+            }
 
             return false;
         }
