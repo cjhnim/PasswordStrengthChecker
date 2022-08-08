@@ -52,6 +52,8 @@ namespace PasswordStrengthChecker
                     return true;
             }
 
+            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_DIGITS });
+
             return false;
         }
 
@@ -63,6 +65,7 @@ namespace PasswordStrengthChecker
                     return true;
             }
 
+            reasons.Add(new WeakReasons { Type = WeakReasons.TYPE_ALPHABET});
             return false;
         }
 

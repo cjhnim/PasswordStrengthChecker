@@ -77,5 +77,23 @@ namespace PasswordStrengthChecker.Tests
             Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567", false));
             Assert.AreEqual(WeakReasons.TYPE_LENGTH, checker.GetLastReasons()[0].Type);
         }
+
+        [TestMethod]
+        public void DigitReasons()
+        {
+
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsFalse(checker.IsAcceptablePasswordEx("ABCDEFGH", false));
+            Assert.AreEqual(WeakReasons.TYPE_DIGITS, checker.GetLastReasons()[0].Type);
+        }
+
+        [TestMethod]
+        public void AlphabetReasons()
+        {
+
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678", false));
+            Assert.AreEqual(WeakReasons.TYPE_ALPHABET, checker.GetLastReasons()[0].Type);
+        }
     }
 }
