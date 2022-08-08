@@ -48,10 +48,16 @@ namespace PasswordStrengthChecker.Tests
         }
 
         [TestMethod]
-        public void PasswordShouldBeEqualOrLongerThan10CharactersForAdmin()
+        public void AdminPasswordShouldBeEqualOrLongerThan10Characters()
         {
             Assert.IsFalse(new PasswordChecker().IsAcceptablePasswordEx("1234567A!", true));
             Assert.IsTrue(new PasswordChecker().IsAcceptablePasswordEx("12345678A!", true));
+        }
+
+        [TestMethod]
+        public void AdminPasswordShouldBeContainSpecialChracters()
+        {
+            Assert.IsFalse(new PasswordChecker().IsAcceptablePasswordEx("123456789A", true));
         }
     }
 }

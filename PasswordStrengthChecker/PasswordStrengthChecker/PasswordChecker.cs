@@ -19,13 +19,14 @@ namespace PasswordStrengthChecker
 
         private bool IsAcceptablePasswordForAdmin(string password)
         {
-            if (password.Length >= 10 && IsContainLetterAndDigit(password))
+            if (password.Length >= 10 && IsContainLetterAndDigit(password) && IsContainSpecialChracters(password))
             {
                 return true;
             }
 
             return false;
         }
+
 
         private bool IsContainDigit(string password)
         {
@@ -43,6 +44,17 @@ namespace PasswordStrengthChecker
             foreach (var c in password)
             {
                 if (char.IsLetter(c))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private bool IsContainSpecialChracters(string password)
+        {
+            foreach (var c in password)
+            {
+                if (!char.IsLetterOrDigit(c))
                     return true;
             }
 
