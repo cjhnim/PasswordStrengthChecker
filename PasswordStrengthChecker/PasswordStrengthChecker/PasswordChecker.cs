@@ -8,12 +8,25 @@ namespace PasswordStrengthChecker
     {
         public bool IsAcceptablePassword(string password)
         {
-            if (password.Length > 7 && IsContainLetter(password))
+            if (password.Length > 7 && IsContainLetter(password) && IsContainDigit(password))
             {
                 return true;
             }
 
             return false;
+        }
+
+        private bool IsContainDigit(string password)
+        {
+            bool isContainDigit = false;
+            foreach (var c in password)
+            {
+                if (char.IsDigit(c))
+                    isContainDigit = true;
+
+            }
+
+            return isContainDigit;
         }
 
         private bool IsContainLetter(string password)
