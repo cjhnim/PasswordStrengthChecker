@@ -8,9 +8,7 @@ namespace PasswordStrengthChecker
     {
         public bool IsAcceptablePassword(string password)
         {
-            if (password.Length > 7 && 
-                IsContainLetter(password) && 
-                IsContainDigit(password))
+            if (password.Length > 7 && IsContainLetterAndDigit(password))
             {
                 return true;
             }
@@ -18,11 +16,10 @@ namespace PasswordStrengthChecker
             return false;
         }
 
+
         private bool IsAcceptablePasswordForAdmin(string password)
         {
-            if (password.Length >= 10 &&
-                IsContainLetter(password) &&
-                IsContainDigit(password))
+            if (password.Length >= 10 && IsContainLetterAndDigit(password))
             {
                 return true;
             }
@@ -50,6 +47,11 @@ namespace PasswordStrengthChecker
             }
 
             return false;
+        }
+
+        private bool IsContainLetterAndDigit(string password)
+        {
+            return IsContainLetter(password) && IsContainDigit(password);
         }
 
         public bool IsAcceptablePasswordEx(string password, bool isAdmin)
