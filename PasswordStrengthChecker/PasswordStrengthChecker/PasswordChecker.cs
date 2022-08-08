@@ -74,5 +74,9 @@ namespace PasswordStrengthChecker
                 return IsAcceptablePasswordForAdmin(password);
         }
 
+        public List<WeakReasons> GetLastReasons()
+        {
+            return new List<WeakReasons>();
+        }
     }
 }

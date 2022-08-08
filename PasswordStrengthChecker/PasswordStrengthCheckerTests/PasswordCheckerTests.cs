@@ -59,5 +59,14 @@ namespace PasswordStrengthChecker.Tests
         {
             Assert.IsFalse(new PasswordChecker().IsAcceptablePasswordEx("123456789A", true));
         }
+
+        [TestMethod]
+        public void IfPasswordIsStrong_LastReasonShouldBeEmpty()
+        {
+
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsTrue(checker.IsAcceptablePasswordEx("1234567A", false));
+            Assert.AreEqual(0, checker.GetLastReasons().Count);
+        }
     }
 }
