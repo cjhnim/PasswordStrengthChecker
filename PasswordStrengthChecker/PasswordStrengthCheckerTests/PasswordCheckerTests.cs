@@ -9,6 +9,7 @@ namespace PasswordStrengthChecker.Tests
     [TestClass]
     public class PasswordCheckerTests
     {
+        // Iteration 1
         [TestMethod]
         public void BlankPasswordShouldNotBeAcceptable()
         {
@@ -37,6 +38,13 @@ namespace PasswordStrengthChecker.Tests
         public void PasswordEqualsOrLessThan7ChractersShouldBeNotAcceptable()
         {
             Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("ABCDEF1"));
+        }
+
+        // Iteration 2
+        [TestMethod]
+        public void IfOneOfOurProspectiveCustomersShouldBeGivenFalseFlag()
+        {
+            Assert.IsTrue(new PasswordChecker().IsAcceptablePasswordEx("1234567A", false));
         }
     }
 }

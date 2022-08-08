@@ -39,5 +39,10 @@ namespace PasswordStrengthChecker
 
             return false;
         }
+
+        public bool IsAcceptablePasswordEx(string password, bool isAdmin)
+        {
+            return IsAcceptablePassword(password);
+        }
     }
 }
