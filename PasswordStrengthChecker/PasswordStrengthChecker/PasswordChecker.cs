@@ -8,6 +8,9 @@ namespace PasswordStrengthChecker
     {
         public bool IsAcceptablePassword(string password)
         {
+            if (password.Length > 7)
+                return true;
+
             return false;
         }
     }
