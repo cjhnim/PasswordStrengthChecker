@@ -107,11 +107,32 @@ namespace PasswordStrengthChecker.Tests
         }
 
         [TestMethod]
-        public void CompositeReasons()
+        public void CompositeReasonsForAdmin()
         {
 
             PasswordChecker checker = new PasswordChecker();
             Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567890", true));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_SPECIAL));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_ALPHABET));
+        }
+
+        [TestMethod]
+        public void CompositeReasonsForUser()
+        {
+
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsFalse(checker.IsAcceptablePasswordEx("12345", true));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_LENGTH));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_ALPHABET));
+        }
+
+        [TestMethod]
+        public void CompletelyWrongAdminPassword()
+        {
+
+            PasswordChecker checker = new PasswordChecker();
+            Assert.IsFalse(checker.IsAcceptablePasswordEx("1234", true));
+            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_LENGTH));
             Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_SPECIAL));
             Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasons.TYPE_ALPHABET));
         }

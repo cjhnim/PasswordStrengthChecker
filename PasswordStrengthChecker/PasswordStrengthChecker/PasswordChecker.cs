@@ -6,12 +6,7 @@ namespace PasswordStrengthChecker
 {
     public class PasswordChecker
     {
-        private List<WeakReasons> reasons;
-
-        public PasswordChecker()
-        {
-            reasons = new List<WeakReasons>();
-        }
+        private List<WeakReasons> reasons = new List<WeakReasons>();
 
         public bool IsAcceptablePassword(string password)
         {
@@ -26,6 +21,18 @@ namespace PasswordStrengthChecker
             return false;
         }
 
+        public bool IsAcceptablePasswordEx(string password, bool isAdmin)
+        {
+            if (!isAdmin)
+                return IsAcceptablePassword(password);
+            else
+                return IsAcceptablePasswordForAdmin(password);
+        }
+
+        public List<WeakReasons> GetLastReasons()
+        {
+            return reasons;
+        }
 
         private bool IsAcceptablePasswordForAdmin(string password)
         {
@@ -95,17 +102,5 @@ namespace PasswordStrengthChecker
             return IsContainLetter(password) && IsContainDigit(password);
         }
 
-        public bool IsAcceptablePasswordEx(string password, bool isAdmin)
-        {
-            if (!isAdmin)
-                return IsAcceptablePassword(password);
-            else
-                return IsAcceptablePasswordForAdmin(password);
-        }
-
-        public List<WeakReasons> GetLastReasons()
-        {
-            return reasons;
-        }
     }
 }
