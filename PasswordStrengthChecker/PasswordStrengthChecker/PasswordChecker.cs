@@ -8,7 +8,7 @@ namespace PasswordStrengthChecker
     {
         public bool IsAcceptablePassword(string password)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
