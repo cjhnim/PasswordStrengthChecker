@@ -10,9 +10,9 @@ namespace PasswordStrengthChecker.Tests
     public class PasswordCheckerTests
     {
         [TestMethod]
-        public void TestNotImplementMethod()
+        public void BlankPasswordShouldNotBeAcceptable()
         {
-            new PasswordChecker().IsAcceptablePassword(null);
+            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword(""));
         }
     }
 }
