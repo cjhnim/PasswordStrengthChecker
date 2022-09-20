@@ -10,131 +10,61 @@ namespace PasswordStrengthChecker.Tests
     [TestClass]
     public class PasswordCheckerTests
     {
-        // Iteration 1
+        // Test IsAcceptablePassword
         [TestMethod]
-        public void BlankPasswordShouldNotBeAcceptable()
+        /*  inputPasswd | isAcceptable  */
+        [DataRow("", false)]            //BlankPasswordShouldNotBeAcceptable
+        [DataRow("1234567A", true)]     //PasswordLongerThan7CharactersShouldBeAcceptable
+        [DataRow("12345678", false)]    //PasswordLongerThan7CharactersButNoAlphabetShouldBeNotAcceptable
+        [DataRow("ABCDEFGH", false)]    //PasswordLongerThan7CharactersButNoDigitShouldBeNotAcceptable
+        [DataRow("ABCDEF1", false)]     //PasswordEqualsOrLessThan7ChractersShouldBeNotAcceptable
+        public void UserPasswordHasLengthMoreThan7AndContainAlphabetAndDigits(string inputPasswd, bool isAcceptable)
         {
-            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword(""));
+            Assert.AreEqual(isAcceptable, new PasswordChecker().IsAcceptablePassword(inputPasswd));
         }
 
+        // Test IsAcceptablePasswordEx
         [TestMethod]
-        public void PasswordLongerThan7CharactersShouldBeAcceptable()
+        /*  inputPasswd | isAdmin | isAcceptable  */
+        [DataRow("1234567A", false, true)] //IfOneOfOurProspectiveCustomersShouldBeGivenFalseFlag
+        [DataRow("1234567A!", true, false)] //AdminPasswordShouldBeEqualOrLongerThan10Characters
+        [DataRow("12345678A!", true, true)] //AdminPasswordShouldBeEqualOrLongerThan10Characters
+        [DataRow("123456789A", true, false)] //AdminPasswordShouldBeContainSpecialChracters
+        public void AdminPasswordHasLengthMoreThan10andContainAlsoSpecialCharacters(string inputPasswd, bool isAdmin, bool isAcceptable)
         {
-            Assert.IsTrue(new PasswordChecker().IsAcceptablePassword("1234567A"));
+            Assert.AreEqual(isAcceptable, new PasswordChecker().IsAcceptablePasswordEx(inputPasswd, isAdmin));
         }
 
+        // Test GetLastReasons
         [TestMethod]
-        public void PasswordLongerThan7CharactersButNoAlphabetShouldBeNotAcceptable()
+        /*  inputPasswd | isAdmin | isAcceptable | reasonCount */
+        [DataRow("1234567A", false, true, 0)]
+        [DataRow("1234567", false, false, 2)]
+        public void WeakPasswordHasReasons(string inputPasswd, bool isAdmin, bool isAcceptable, int reasonCount)
         {
-            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("12345678"));
-        }
-
-        [TestMethod]
-        public void PasswordLongerThan7CharactersButNoDigitShouldBeNotAcceptable()
-        {
-            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("ABCDEFGH"));
-        }
-
-        [TestMethod]
-        public void PasswordEqualsOrLessThan7ChractersShouldBeNotAcceptable()
-        {
-            Assert.IsFalse(new PasswordChecker().IsAcceptablePassword("ABCDEF1"));
-        }
-
-        // Iteration 2
-        [TestMethod]
-        public void IfOneOfOurProspectiveCustomersShouldBeGivenFalseFlag()
-        {
-            Assert.IsTrue(new PasswordChecker().IsAcceptablePasswordEx("1234567A", false));
-        }
-
-        [TestMethod]
-        public void AdminPasswordShouldBeEqualOrLongerThan10Characters()
-        {
-            Assert.IsFalse(new PasswordChecker().IsAcceptablePasswordEx("1234567A!", true));
-            Assert.IsTrue(new PasswordChecker().IsAcceptablePasswordEx("12345678A!", true));
-        }
-
-        [TestMethod]
-        public void AdminPasswordShouldBeContainSpecialChracters()
-        {
-            Assert.IsFalse(new PasswordChecker().IsAcceptablePasswordEx("123456789A", true));
-        }
-
-        [TestMethod]
-        public void IfPasswordIsStrong_LastReasonShouldBeEmpty()
-        {
-
             PasswordChecker checker = new PasswordChecker();
-            Assert.IsTrue(checker.IsAcceptablePasswordEx("1234567A", false));
-            Assert.AreEqual(0, checker.GetLastReasons().Count);
+            Assert.AreEqual(isAcceptable, checker.IsAcceptablePasswordEx(inputPasswd, isAdmin));
+            Assert.AreEqual(reasonCount, checker.GetLastReasons().Count);
         }
 
         [TestMethod]
-        public void IfPasswordIsWeak_LastReasonShouldBeNotEmpty()
+        /*  inputPasswd | isAdmin | isAcceptable | reasons */
+        [DataRow("1234567", false, false, WeakReasonType.Length, WeakReasonType.Alphabet)] //IfPasswordIsWeak_LastReasonShouldBeNotEmpty
+        [DataRow("ABCDEFGH", false, false, WeakReasonType.Digits)]  // DigitReasons
+        [DataRow("12345678", false, false, WeakReasonType.Alphabet)]  // AlphabetReasons
+        [DataRow("12345678AB", true, false, WeakReasonType.Special)]  // SpecialCharactersReasons
+        [DataRow("1234567890", true, false, WeakReasonType.Alphabet, WeakReasonType.Special)]  // CompositeReasonsForAdmin
+        [DataRow("12345", false, false, WeakReasonType.Length, WeakReasonType.Alphabet)]  // CompositeReasonsForUser
+        [DataRow("1234", true, false, WeakReasonType.Length, WeakReasonType.Alphabet, WeakReasonType.Special)]  // CompletelyWrongAdminPassword
+        public void WeakPasswordHasReasonsList(string inputPasswd, bool isAdmin, bool isAcceptable, params WeakReasonType[] reasonTypes)
         {
-
             PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567", false));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Length));
-        }
 
-        [TestMethod]
-        public void DigitReasons()
-        {
+            Assert.AreEqual(isAcceptable, checker.IsAcceptablePasswordEx(inputPasswd, isAdmin));
 
-            PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("ABCDEFGH", false));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Digits));
-        }
+            var expectReasons = reasonTypes.Select(r => new WeakReasons {Type = r}).ToList();
 
-        [TestMethod]
-        public void AlphabetReasons()
-        {
-
-            PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678", false));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
-        }
-
-        [TestMethod]
-        public void SpecialCharactersReasons()
-        {
-
-            PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("12345678AB", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Special));
-        }
-
-        [TestMethod]
-        public void CompositeReasonsForAdmin()
-        {
-
-            PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("1234567890", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Special));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
-        }
-
-        [TestMethod]
-        public void CompositeReasonsForUser()
-        {
-
-            PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("12345", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Length));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
-        }
-
-        [TestMethod]
-        public void CompletelyWrongAdminPassword()
-        {
-
-            PasswordChecker checker = new PasswordChecker();
-            Assert.IsFalse(checker.IsAcceptablePasswordEx("1234", true));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Length));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Alphabet));
-            Assert.IsTrue(checker.GetLastReasons().Any(item => item.Type == WeakReasonType.Special));
+            CollectionAssert.AreEqual(expectReasons, checker.GetLastReasons());
         }
     }
 }
